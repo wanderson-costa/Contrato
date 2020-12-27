@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Entities
 {
@@ -22,7 +19,12 @@ namespace Entities
             this.Numero = numero;
             this.Data = data;
             this.Valor = valor;
-            this.Parcela = null;
+            this.Parcela = new List<Parcela>();
+        }
+
+        public void adicionarParcela(Parcela parcela)
+        {
+            this.Parcela.Add(parcela);
         }
     }
 }

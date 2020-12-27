@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Entities;
 
 namespace Services
@@ -12,10 +8,22 @@ namespace Services
         private IPagamentoSrv pagamentoSrv;
         public ContratoSrv(IPagamentoSrv servicoPagamento)
         {
-            this.pagamentoSrv = servicoPagamento;
+            pagamentoSrv = servicoPagamento;
         }
-        public void processarContrato(Contrato Contrato, int totalParcelas)
+        public void processarContrato(Contrato contrato, int numeroParcelas)
         {
+            double valorParcela = (contrato.Valor / numeroParcelas);
+
+            for (int i = 1; i <= numeroParcelas; i++)
+            {
+                DateTime dataParcela = contrato.Data.AddMonths(i);
+
+                double jurosParcela = pagamentoSrv.taxaJuros(valorParcela, i);
+                double taxaParcela = pagamentoSrv.taxaPagamento(valorParcela + jurosParcela);
+                double valorTotal = (valorParcela + jurosParcela + taxaParcela);
+
+                contrato.adicionarParcela(new Parcela(dataParcela, valorTotal));
+            }
         }
     }
 }

@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Globalization;
 
 namespace Entities
 {
@@ -19,6 +16,13 @@ namespace Entities
         {
             this.Data = data;
             this.Valor = valor;
+        }
+
+        public override string ToString()
+        {
+            return Data.ToString("dd/MM/yyyy") +
+                   " - " +
+                   Valor.ToString("F2", CultureInfo.InvariantCulture);
         }
     }
 }
